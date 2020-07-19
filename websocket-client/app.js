@@ -1,57 +1,55 @@
 window.onload = function () {
-    // Busca a referencia elementos da página
+    // Bind elements form html
     const form = document.getElementById("message-form");
     const messageField = document.getElementById("message");
     const messagesList = document.getElementById("messages");
     const socketStatus = document.getElementById("status");
     const closeBtn = document.getElementById("close");
 
-    // Cria um novo socket.
-    const socket = new WebSocket("ws://echo.websocket.org/");
+    // Create a websocket server
+    const websocketServer = "ws://localhost:3000/";
+    const socket = new WebSocket(websocketServer);
 
-    // Função para tratar os erros que podem ocorrer
+    // ========== Websocket functions =================//
+    // Handle errors on websocket
     socket.onerror = error => {
         console.log("WebSocket Error: ", error);
     };
 
-    // Função chamada no momento da conexão do cliente com o servidor
+    // Handle events during the connection between server and client
     socket.onopen = event => {
-        socketStatus.innerHTML = "Conectado ao servidor: " + event.currentTarget.url;
+        socketStatus.innerHTML = "Connected to server: " + event.currentTarget.url;
         socketStatus.className = "open";
     };
 
-    // Função para tratar mensagens enviadas pelo servidor.
+    // Handle messages sent by server
     socket.onmessage = event => {
         let message = event.data;
-        messagesList.innerHTML += '<li class="received"><span>Recebido:</span>' + message + "</li>";
+        messagesList.innerHTML += '<li class="received"><span>Received:</span>' + message + "</li>";
     };
 
-    // Função chamada no momento da desconexão do servidor com o cliente
+    // Handle events during server disconnection with the client
     socket.onclose = () => {
-        socketStatus.innerHTML = "Websocket desconectado.";
+        socketStatus.innerHTML = "Websocket disconnected.";
         socketStatus.className = "closed";
     };
 
-    // Função que envia mensagens para o servidor através da conexão websocket
+
+    //============== Form functions ====================================//
+
+    // Function to send messages to server using websocket connection
     form.onsubmit = e => {
         e.preventDefault();
 
-        // Pega a mensagem digitada no campo de mensagem do formulário
         let message = messageField.value;
-
-        // Envia a mensagem através do websocket
         socket.send(message);
 
-        // Adiciona a mensagem enviada na tela
-        messagesList.innerHTML += '<li class="sent"><span>Enviado:</span>' + message + "</li>";
-
-        // Limpa o campo de mensagem
+        messagesList.innerHTML += '<li class="sent"><span>Sent:</span>' + message + "</li>";
         messageField.value = "";
-
         return false;
     };
 
-    // Função que fecha a conexão websocket
+    // Function to close websocket connection
     closeBtn.onclick = e => {
         e.preventDefault();
         socket.close();
