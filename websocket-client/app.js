@@ -1,5 +1,5 @@
 window.onload = function () {
-    // Bind elements form html
+    // Bind elements from index.html
     const form = document.getElementById("message-form");
     const messageField = document.getElementById("message");
     const messagesList = document.getElementById("messages");
@@ -36,7 +36,6 @@ window.onload = function () {
 
 
     //============== Form functions ====================================//
-
     // Function to send messages to server using websocket connection
     form.onsubmit = e => {
         e.preventDefault();

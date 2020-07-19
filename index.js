@@ -32,21 +32,25 @@ server.listen(port, () => console.log(`Running at http://localhost:${port}`));
 
 function calculate(message) {
     try {
-        let split = message.trim().split(" ");
+        let messageArray = message.trim().split(" ");
 
-        if (split.length !== 3) {
+        if (messageArray.length === 1) {
+            return "Please, use a space between the operation sign!";
+        }
+
+        if (messageArray.length !== 3) {
             return invalidMessage;
         }
 
-        switch (split[1]) {
+        switch (messageArray[1]) {
             case "+":
-                return calc.addition(split[0], split[2]);
+                return calc.addition(messageArray[0], messageArray[2]);
             case "-":
-                return calc.subtraction(split[0], split[2]);
+                return calc.subtraction(messageArray[0], messageArray[2]);
             case "/":
-                return calc.division(split[0], split[2]);
+                return calc.division(messageArray[0], messageArray[2]);
             case "*":
-                return calc.multiplication(split[0], split[2]);
+                return calc.multiplication(messageArray[0], messageArray[2]);
             default:
                 return invalidMessage;
         }

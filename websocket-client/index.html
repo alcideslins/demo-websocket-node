@@ -12,12 +12,12 @@
     <div id="status">Conecting...</div>
     <ul id="messages"></ul>
     <form id="message-form" action="#" method="post">
-        <textarea
-                id="message"
-                placeholder="Send operation like 5 + 10..."
-                required
-                rows="1"
-        ></textarea>
+        <input type="text"
+               id="message"
+               placeholder="Send operation like: 5 + 10"
+               autocomplete="off"
+               required
+        >
         <button type="submit">Send</button>
         <button type="button" id="close">Close Connection</button>
     </form>
